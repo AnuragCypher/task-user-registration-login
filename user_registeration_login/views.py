@@ -12,26 +12,15 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
-            button = form.cleaned_data['action']
-            if button == 'Already Registered':
-                return redirect('otp_verification')
             email = form.cleaned_data['email']
+
             if CustomUser.objects.filter(email=email).exists():
-                existing_user = CustomUser.objects.filter(email=email)[0]
-                existing_user.generate_otp()
 
-                send_mail(
-                    'OTP Verification',
-                    f'Your OTP is: {existing_user.otp}',
-                    sp.EMAIL_HOST_USER,
-                    [existing_user.email],
-                    fail_silently=False,
-                )
-
-                return redirect('otp_verification')
+                if CustomUser.objects.get(email=email).verified:
+                    request.session['redirected_from'] = sp.SESSION
+                    return redirect('login')
 
             else:
-
                 user = CustomUser(email=email)
                 user.generate_otp()
 
@@ -47,6 +36,7 @@ def register(request):
     else:
         form = RegistrationForm()
     return render(request, 'register.html', {'form': form})
+
 
 def otp_verification(request):
     if request.method == 'POST':
@@ -66,6 +56,8 @@ def otp_verification(request):
 
             if valid_otp == True and str(user.otp) == str(otp):
                 print("i am finally here to final response")
+                user.verified = True
+                user.save()
                 messages.success(request, 'OTP verification successful.')
                 request.session['redirected_from'] = sp.SESSION
                 return redirect('login')

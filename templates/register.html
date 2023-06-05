@@ -1,4 +1,4 @@
-<h1>Register</h1>
+<h1>Register AND Login</h1>
 {% if messages %}
 {% for message in messages %}
 <p>{{ message }}</p>
@@ -7,5 +7,5 @@
 <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">Register</button>
+    <button type="submit">Login</button>
 </form>

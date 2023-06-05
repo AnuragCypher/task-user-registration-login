@@ -7,6 +7,7 @@ import random
 class CustomUser(AbstractUser):
     otp = models.IntegerField(null=True)
     otp_created_at = models.DateTimeField(null=True)
+    verified = models.BooleanField(null=True)
 
     def generate_otp(self):
         self.otp = random.randint(1000, 9999)
