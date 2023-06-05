@@ -4,7 +4,7 @@ follow below steps to setup the application in your environment:
 
 step 1 : clone the repo.
 
-step 2 : at root level create a python virtual env, 
+step 2 : at root level of project (where you cloned the repo) create a python virtual env, 
             -> at root run :- python -m venv <name of your virtual environment>.
             -> if you are on linux run :- source <name of your virtual environment>/bin/activate.
 
@@ -38,4 +38,3 @@ step 6 : now start the application :- python manage.py runserver.
 
     -> first it will ak for your email address, then on clicking the register button you will redirect to otp_verification , if you are already a part of system/application there will be new otp generated for you shared to the given email address else it will make you part of process and share the otp with you.
 
-    
