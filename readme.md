@@ -5,7 +5,9 @@ follow below steps to setup the application in your environment:
 step 1 : clone the repo.
 
 step 2 : at root level of project (where you cloned the repo) create a python virtual env, 
+
             -> at root run :- python -m venv <name of your virtual environment>.
+
             -> if you are on linux run :- source <name of your virtual environment>/bin/activate.
 
             ** the above steps will create and activate the virtual env for your development **
