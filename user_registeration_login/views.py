@@ -70,7 +70,7 @@ def otp_verification(request):
                 # user.otp_created_at = None
                 # user.save()
                 messages.success(request, 'OTP verification successful.')
-                # request.session['redirected_from'] = sp.SESSION
+                request.session['redirected_from'] = sp.SESSION
                 return redirect('login')
 
             messages.error(request, 'Invalid OTP.')
@@ -81,7 +81,7 @@ def otp_verification(request):
 
 
 def login(request):
-    # if request.session.get('redirected_from') == sp.SESSION:
-    return render(request, 'login.html')
-    # else:
-    #     return render(request, 'warning.html')
+    if request.session.get('redirected_from') == sp.SESSION:
+        return render(request, 'login.html')
+    else:
+        return render(request, 'warning.html')
