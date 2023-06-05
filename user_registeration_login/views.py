@@ -12,6 +12,9 @@ def register(request):
     if request.method == 'POST':
         form = RegistrationForm(request.POST)
         if form.is_valid():
+            button = form.cleaned_data['action']
+            if button == 'Already Registered':
+                return redirect('otp_verification')
             email = form.cleaned_data['email']
             if CustomUser.objects.filter(email=email).exists():
                 existing_user = CustomUser.objects.filter(email=email)[0]
@@ -60,20 +63,14 @@ def otp_verification(request):
             print("user object", type(user))
 
             valid_otp = user.is_otp_valid()
-            print(valid_otp)
-            print(user.otp)
-            print(otp)
 
             if valid_otp == True and str(user.otp) == str(otp):
                 print("i am finally here to final response")
-                # user.otp = None
-                # user.otp_created_at = None
-                # user.save()
                 messages.success(request, 'OTP verification successful.')
                 request.session['redirected_from'] = sp.SESSION
                 return redirect('login')
 
-            messages.error(request, 'Invalid OTP.')
+            messages.error(request, 'Invalid OTP., Either Entered OTP is Incorrect or Has Expired')
             return redirect('otp_verification')
     else:
         form = OTPForm()
